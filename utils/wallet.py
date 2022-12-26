@@ -2,7 +2,7 @@ import os
 import web3
 import json
 
-provider = "HTTP://127.0.0.1:7545"
+provider = os.getenv("provider")
 Web3 = web3.Web3(web3.Web3.HTTPProvider(provider))
 CONNECTION = Web3.isConnected()
 

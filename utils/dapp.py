@@ -3,10 +3,10 @@ from utils.wallet import *
 from discord.ext import commands
 import json
 import asyncio
+import os
 import random
 bot = commands.Bot("!",intents=discord.Intents.all())
-Token = "MTA1NjA5NDIyNzQ5NjQ0Mzk1NQ.GiVWyY.uEtTC5MYBAcJxtdr4RVLYQThz_YOXArNg2owxw"
-tresury = "0x82b2361175e98AcAFb8b151b5954F4962fDeAfa4"
+tresury = os.getenv("tresury")
 
 @bot.event
 async def on_ready():
