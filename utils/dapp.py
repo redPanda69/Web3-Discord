@@ -4,9 +4,10 @@ from discord.ext import commands
 import json
 import asyncio
 import os
+from utils.dbquery import *
 import random
 bot = commands.Bot("!",intents=discord.Intents.all())
-tresury = os.getenv("tresury")
+tresury = ""
 
 @bot.event
 async def on_ready():
@@ -44,12 +45,14 @@ async def rps(ctx,choice:str,bet:int):
     else:
         await ctx.reply("Better Luck Next time..")
         status = "lose"
-
     if status != "draw":
         if status == "lose":
             sendTransaction(address,tresury,bet)
         elif status == "win":
             sendTransaction(tresury,address,bet)
+    
+    add_details(ctx.author.id,status,bet)
+    
 
 
 @bot.command()
@@ -79,7 +82,23 @@ async def transaction(ctx,txId):
     """)
 
         
-
+@bot.command()
+async def profile(ctx):
+    wins = request_profile(ctx.author.id,'win')
+    lose = request_profile(ctx.author.id,'lose')
+    draw = request_profile(ctx.author.id,'draw')
+    address = getwallet(ctx.author.id)
+    balance = getBalance(address)
+    await ctx.send(
+        f"""
+** ADDRESS ** : {address}
+** BALANCE ** : {balance}
+** WINS **:{wins}
+** LOSE **:{lose}
+** DRAWS **:{draw}
+        """
+        
+    )
 
 def run(Token):
     bot.run(Token)

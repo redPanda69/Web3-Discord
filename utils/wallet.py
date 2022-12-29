@@ -1,8 +1,7 @@
 import os
 import web3
 import json
-
-provider = os.getenv("provider")
+provider = ""
 Web3 = web3.Web3(web3.Web3.HTTPProvider(provider))
 CONNECTION = Web3.isConnected()
 
